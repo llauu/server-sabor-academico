@@ -3,10 +3,11 @@ const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const fs = require("fs");
 
 dotenv.config();
 
-const serviceAccount = require(process.env.SERVICE_ACCOUNT);
+const serviceAccount = JSON.parse(fs.readFileSync(process.env.SERVICE_ACCOUNT, 'utf8'));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +20,6 @@ admin.initializeApp({
 const db = admin.firestore();
 
 app.use(bodyParser.json());
-
 
 // Endpoint para enviar una notificación a un usuario específico
 app.post("/notify", async (req, res) => {
@@ -40,7 +40,6 @@ app.post("/notify", async (req, res) => {
     res.status(500).send(`Error al enviar el mensaje: ${error}`);
   }
 });
-
 
 // Endpoint para enviar notificación a todos los empleados de un rol
 app.post("/notify-role", async (req, res) => {
@@ -79,7 +78,6 @@ app.post("/notify-role", async (req, res) => {
     res.status(500).send(`Error al enviar mensaje: ${error}`);
   }
 });
-
 
 // Endpoint para enviar un mail a un usuario
 app.post("/send-mail", async (req, res) => {
