@@ -94,7 +94,7 @@ app.post("/send-mail", async (req, res) => {
     });
 
     let resultado = await transporter.sendMail({
-      from: '"Mi Comanda" <comandaferrero@gmail.com>',
+      from: '"Sabor Academico" <saboracademico@gmail.com>',
       to: mail,
       subject: aceptacion
         ? "Felicitaciones su cuenta fue aceptada"
@@ -102,7 +102,7 @@ app.post("/send-mail", async (req, res) => {
       html: `
       <h1>${aceptacion ? "Felicitaciones " : "Disculpe "} ${nombreUsuario}</h1>
       <p>Su cuenta fue ${aceptacion ? "aceptada" : "rechazada"}</p>
-      <p>Saludos La Comanda</p>
+      <p>Saludos, Sabor Academico</p>
       `,
     });
     res.json({ ...resultado, seEnvio: true });
