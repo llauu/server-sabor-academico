@@ -4,6 +4,7 @@ const admin = require("firebase-admin");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const fs = require("fs");
+const cors = require("cors");  // Importa cors
 
 dotenv.config();
 
@@ -19,7 +20,15 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+// Configura CORS
+app.use(cors({
+  origin: "https://localhost", // Permitir solicitudes desde esta URL
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(bodyParser.json());
+
 
 // Endpoint para enviar una notificación a un usuario específico
 app.post("/notify", async (req, res) => {
