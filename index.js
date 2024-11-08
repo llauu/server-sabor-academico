@@ -90,7 +90,7 @@ app.post("/notify-role", async (req, res) => {
 
 
 // Endpoint para enviar un mail a usuario aceptado o pendiente
-app.post("/smend-ail", async (req, res) => {
+app.post("/send-mail", async (req, res) => {
   try {
     const { aceptacion, nombreUsuario, mail } = req.body;
     const transporter = nodemailer.createTransport({
@@ -151,7 +151,7 @@ app.post("/smend-ail", async (req, res) => {
 
 
 // Endpoint para enviar un mail a un usuario rechazado
-app.post("/rechazo-mail", async (req, res) => {
+app.post("/reject-mail", async (req, res) => {
   try {
     const { aceptacion, nombreUsuario, mail } = req.body;
     const transporter = nodemailer.createTransport({
