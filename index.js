@@ -108,10 +108,24 @@ app.post("/send-mail", async (req, res) => {
       subject: aceptacion
         ? "Felicitaciones su cuenta fue aceptada"
         : "Disculpe pero hemos bloqueado su cuenta",
-      html: `
-      <h1>${aceptacion ? "Felicitaciones " : "Disculpe "} ${nombreUsuario}</h1>
-      <p>Su cuenta fue ${aceptacion ? "aceptada" : "rechazada"}</p>
-      <p>Saludos, Sabor Academico</p>
+        html: `
+        <div style="background-color: #f9f9f9; padding: 20px; font-family: Arial, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #dddddd; padding: 20px; border-radius: 8px;">
+            <h1 style="color: ${aceptacion ? '#4CAF50' : '#E53935'}; text-align: center;">
+              ${aceptacion ? "¡Felicitaciones!" : "Lo sentimos,"} ${nombreUsuario}
+            </h1>
+            <p style="font-size: 18px; color: #333333; text-align: center;">
+              Su cuenta ha sido ${aceptacion ? "<strong>aceptada</strong>" : "<strong>rechazada</strong>"}.
+            </p>
+            <p style="font-size: 16px; color: #666666; text-align: center;">
+              ${aceptacion ? "¡Estamos emocionados de que comiences a usar nuestra plataforma!" : "Lamentablemente, no cumple con los requisitos para registrarse en este momento."}
+            </p>
+            <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
+            <p style="font-size: 16px; color: #333333; text-align: center;">
+              Saludos, <br> <strong>Sabor Académico</strong>
+            </p>
+          </div>
+        </div>
       `,
     });
     res.json({ ...resultado, seEnvio: true });
