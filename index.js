@@ -88,8 +88,9 @@ app.post("/notify-role", async (req, res) => {
   }
 });
 
-// Endpoint para enviar un mail a un usuario
-app.post("/send-mail", async (req, res) => {
+
+// Endpoint para enviar un mail a usuario aceptado o pendiente
+app.post("/smend-ail", async (req, res) => {
   try {
     const { aceptacion, nombreUsuario, mail } = req.body;
     const transporter = nodemailer.createTransport({
@@ -116,7 +117,7 @@ app.post("/send-mail", async (req, res) => {
             <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #dddddd; padding: 20px; border-radius: 8px; text-align: center;">
               
               <!-- Logo de la empresa -->
-              <img src="assets/logo.jpeg" alt="Logo Sabor Académico" style="width: 100px; margin-bottom: 20px;">
+              <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-online-5cb54.appspot.com/o/logo.jpeg?alt=media&token=d3b33426-153e-46b2-b521-9f6cf8e10b2f" alt="Logo Sabor Académico" style="width: 100px; margin-bottom: 20px;">
 
               <h1 style="color: ${aceptacion ? '#4CAF50' : '#FFA726'};">
                 ${aceptacion ? "¡Felicitaciones!" : "¡Cuenta creada!"} ${nombreUsuario}
@@ -147,6 +148,71 @@ app.post("/send-mail", async (req, res) => {
     });
   }
 });
+
+
+// Endpoint para enviar un mail a un usuario rechazado
+app.post("/rechazo-mail", async (req, res) => {
+  try {
+    const { aceptacion, nombreUsuario, mail } = req.body;
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.MAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+
+    let resultado = await transporter.sendMail({
+      from: '"Sabor Academico" <saboracademico@gmail.com>',
+      to: mail,
+      subject:
+        "Notificacion de rechazo",
+      html: `
+        <div style="background-color: #f9f9f9; padding: 20px; font-family: 'Roboto', Arial, sans-serif;">
+          <!-- Cargar fuente personalizada desde Google Fonts -->
+          <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+          
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #dddddd; padding: 20px; border-radius: 8px; text-align: center;">
+            
+            <!-- Logo de la empresa -->
+            <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-online-5cb54.appspot.com/o/logo.jpeg?alt=media&token=d3b33426-153e-46b2-b521-9f6cf8e10b2f" alt="Logo Sabor Académico" style="width: 100px; margin-bottom: 20px;">
+      
+            <h1 style="color: #E53935;">
+              Lo sentimos, ${nombreUsuario}
+            </h1>
+      
+            <p style="font-size: 18px; color: #333333;">
+              Lamentablemente, su cuenta no ha sido <strong>aprobada</strong>.
+            </p>
+      
+            <p style="font-size: 16px; color: #666666;">
+              Tras revisar la información proporcionada, hemos determinado que no cumple con los requisitos necesarios para ser parte de nuestra plataforma en este momento.
+            </p>
+      
+            <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
+      
+            <p style="font-size: 16px; color: #333333;">
+              Si tiene alguna pregunta o desea obtener más información, no dude en ponerse en contacto con nosotros.
+            </p>
+      
+            <p style="font-size: 16px; color: #333333;">
+              Saludos cordiales, <br> <strong>Sabor Académico</strong>
+            </p>
+          </div>
+        </div>
+      `,
+    });
+    res.json({ ...resultado, seEnvio: true });
+  } catch (e) {
+    res.json({
+      mensaje: e,
+      seEnvio: false,
+    });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
