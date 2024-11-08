@@ -116,7 +116,7 @@ app.post("/send-mail", async (req, res) => {
             <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #dddddd; padding: 20px; border-radius: 8px; text-align: center;">
               
               <!-- Logo de la empresa -->
-              <img src="https://example.com/logo.png" alt="Logo Sabor Académico" style="width: 100px; margin-bottom: 20px;">
+              <img src="./assets/logo.jpeg" alt="Logo Sabor Académico" style="width: 100px; margin-bottom: 20px;">
 
               <h1 style="color: ${aceptacion ? '#4CAF50' : '#FFA726'};">
                 ${aceptacion ? "¡Felicitaciones!" : "¡Cuenta creada!"} ${nombreUsuario}
