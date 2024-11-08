@@ -107,25 +107,36 @@ app.post("/send-mail", async (req, res) => {
       to: mail,
       subject: aceptacion
         ? "Felicitaciones su cuenta fue aceptada"
-        : "Disculpe pero hemos bloqueado su cuenta",
+        : "Su cuenta está pendiente de aprobación",
         html: `
-        <div style="background-color: #f9f9f9; padding: 20px; font-family: Arial, sans-serif;">
-          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #dddddd; padding: 20px; border-radius: 8px;">
-            <h1 style="color: ${aceptacion ? '#4CAF50' : '#E53935'}; text-align: center;">
-              ${aceptacion ? "¡Felicitaciones!" : "Lo sentimos,"} ${nombreUsuario}
-            </h1>
-            <p style="font-size: 18px; color: #333333; text-align: center;">
-              Su cuenta ha sido ${aceptacion ? "<strong>aceptada</strong>" : "<strong>rechazada</strong>"}.
-            </p>
-            <p style="font-size: 16px; color: #666666; text-align: center;">
-              ${aceptacion ? "¡Estamos emocionados de que comiences a usar nuestra plataforma!" : "Lamentablemente, no cumple con los requisitos para registrarse en este momento."}
-            </p>
-            <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
-            <p style="font-size: 16px; color: #333333; text-align: center;">
-              Saludos, <br> <strong>Sabor Académico</strong>
-            </p>
+          <div style="background-color: #f9f9f9; padding: 20px; font-family: 'Roboto', Arial, sans-serif;">
+            <!-- Cargar fuente personalizada desde Google Fonts -->
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+            
+            <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #dddddd; padding: 20px; border-radius: 8px; text-align: center;">
+              
+              <!-- Logo de la empresa -->
+              <img src="https://example.com/logo.png" alt="Logo Sabor Académico" style="width: 100px; margin-bottom: 20px;">
+
+              <h1 style="color: ${aceptacion ? '#4CAF50' : '#FFA726'};">
+                ${aceptacion ? "¡Felicitaciones!" : "¡Cuenta creada!"} ${nombreUsuario}
+              </h1>
+
+              <p style="font-size: 18px; color: #333333;">
+                ${aceptacion ? "Su cuenta ha sido <strong>aceptada</strong>." : "Su cuenta ha sido creada y está <strong>pendiente de aprobación</strong>."}
+              </p>
+
+              <p style="font-size: 16px; color: #666666;">
+                ${aceptacion ? "¡Estamos emocionados de que comiences a usar nuestra plataforma!" : "Recibirá un aviso por correo electrónico una vez que se apruebe su cuenta."}
+              </p>
+
+              <hr style="border: none; border-top: 1px solid #eeeeee; margin: 20px 0;">
+
+              <p style="font-size: 16px; color: #333333;">
+                Saludos, <br> <strong>Sabor Académico</strong>
+              </p>
+            </div>
           </div>
-        </div>
       `,
     });
     res.json({ ...resultado, seEnvio: true });
